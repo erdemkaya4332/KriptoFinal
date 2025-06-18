@@ -1,40 +1,73 @@
-## Ana Sayfa
+KriptoFinal - Bilgi Güvenliği ve Kriptoloji Platformu
+KriptoFinal, RSA şifrelemesi ve SHA-256 hash işlemleri gibi güvenli veri şifreleme işlemleri için kullanıcı dostu bir platformdur. Bu platform, verilerinizi güvenli bir şekilde şifrelemenizi, şifrelerinizi çözmenizi ve hash değerleri oluşturmanızı sağlar. KriptoFinal, modern güvenlik ihtiyaçlarını karşılamak için geliştirilmiş hızlı ve güvenli bir çözümdür.
 
-![image](https://github.com/user-attachments/assets/b905cb8d-3767-46c6-a424-f6dd191f9773)
-Yukarıdaki görselde, "Güvenli Şifreleme Sistemleri" başlığı altında; RSA anahtar üretme, RSA ile şifreleme, RSA ile şifre çözme ve SHA-256 hash oluşturma işlemlerine yönlendiren butonlar ve geliştiren kişi bilgisi yer almaktadır.
-## RSA Anahtar Üretme Sayfası
+Ana Sayfa
 
-![image](https://github.com/user-attachments/assets/5b1ee9b0-8063-4e7d-9651-821c22284beb)
-Yukarıdaki görselde, RSA algoritması kullanılarak oluşturulan bir "Public Key" (Açık Anahtar) ve "Private Key" (Özel Anahtar) metin kutuları ile kullanıcıya bu anahtarları kopyalama imkânı veren bir arayüz gösterilmektedir.
-## RSA Şifreleme Sayfası
+![4cfbb56a-2786-475c-ab85-2e34c86be68a](https://github.com/user-attachments/assets/89a63668-c933-4a29-9948-ef33f7dc7e37)
 
-![image](https://github.com/user-attachments/assets/2867b9cc-4da9-4489-848b-7877abddce5b)
-Yukarıdaki görselde, RSA algoritması kullanılarak verilen Base64 formatındaki açık anahtarla bir metnin ("beyza") şifrelenmesini ve şifrelenmiş metnin Base64 formatında çıktısını gösteren bir web arayüzünü tasvir ediyor.
-![image](https://github.com/user-attachments/assets/909d02e6-b089-4d12-8634-a4732e02cf39)
-Yukarıdaki görselde, RSA şifre çözme işlemi için hazırlanmış bir web arayüzünü, Base64 formatında girilen özel anahtar ve şifrelenmiş metin ile orijinal metnin çözümlenmiş halini göstermektedir.
-## SHA 256 Hash Oluşturma Sayfası
+Ana sayfada üç ana işlem seçeneği bulunur:
 
-![image](https://github.com/user-attachments/assets/d10d36b1-1585-4c98-8ccd-3c533df737c0)
-Yukarıdaki görselde, kullanıcıdan metin veya dosya seçimi yaparak SHA-256 algoritmasıyla hash hesaplama işlemi yapmayı sağlayan, modern ve sade tasarıma sahip bir web arayüzünü göstermektedir.
-![image](https://github.com/user-attachments/assets/b60244f0-d813-4158-b5f2-817fdce0d20c)
-Bu görselde, kullanıcı tarafından girilen metnin SHA-256 algoritması kullanılarak hesaplanan hash sonucu gösterilmektedir; kullanıcı arayüzünde metin veya dosya seçeneği bulunmakta, metin girişi yapılabilmekte ve "Hash Hesapla" butonuyla hash değeri elde edilmektedir.
-![image](https://github.com/user-attachments/assets/b5d62eea-875b-4f40-97c4-2df3272732e4)
-![image](https://github.com/user-attachments/assets/5d127ebd-351c-4e3f-8bed-709115c98d90)
-![image](https://github.com/user-attachments/assets/dc97dce6-8209-44ff-810a-45f8f94a4dbe)
-Yukarıdaki görsellerdede, kullanıcı "Dosya" seçeneğini işaretleyerek bilgisayarından bir dosya seçebilir, seçilen dosyanın adı arayüzde görüntülenir ve "Hash Hesapla" butonuna basıldığında seçilen dosyanın SHA-256 hash değeri hesaplanır.
+RSA İşlemleri: RSA anahtar üretme ve şifreleme işlemleri
+
+SHA-256 Hash: Veriler için güvenli hash değerlerinin oluşturulması
+
+RSA Şifre Çözme: RSA ile şifrelenmiş metinlerin çözülmesi
 
 
+Özellikler
+
+![ccb29116-efdd-4430-9692-a03827a2f1a0](https://github.com/user-attachments/assets/fd377505-751f-44c3-acf0-71dffdec9a16)
 
 
+1. RSA İşlemleri
+RSA anahtar üretme ve şifreleme işlemleri bu sekmede yapılabilir. RSA algoritması, şifreleme ve veri güvenliği için en yaygın kullanılan yöntemlerden biridir.
+
+RSA Anahtar Üretme
+Public Key (Açık Anahtar) ve Private Key (Özel Anahtar) üretilebilir.
+
+Anahtarlar görüntülenebilir ve kopyalanabilir.
+
+Anahtar Üret butonu ile hızlıca anahtarlar oluşturulabilir.
+
+RSA Şifreleme
+Kullanıcılar, Public Key ile metinlerini şifreleyebilir.
+
+Şifreleme işlemi ile veriler güvenli bir şekilde iletilir ve yalnızca doğru Private Key ile çözülebilir.
 
 
+2. RSA Şifre Çözme
 
+![fc079909-4957-4ae3-9b17-6bc857fa2e8f](https://github.com/user-attachments/assets/488ca6af-3249-43c2-9686-24f7a1e26aaf)
+   
+RSA ile şifrelenmiş metinleri çözme işlemi bu bölümde yapılır. Private Key (Özel Anahtar) kullanılarak şifrelenmiş metinler çözülür.
 
+Şifre Çözme
+Kullanıcılar, Private Key ve Şifrelenmiş Metin (Base64 formatında) girdikten sonra Şifreyi Çöz butonuna tıklayarak orijinal metni elde edebilirler.
 
+Şifre çözme işlemi güvenli bir şekilde yapılır ve yalnızca yetkili kullanıcılar veriye erişebilir.
 
+3. SHA-256 Hash
 
+![3e23bf90-1f4f-4453-b75e-4a68eac7873f](https://github.com/user-attachments/assets/620321a0-b4b1-40f9-892c-52c53949862c)
 
+SHA-256, 256-bit uzunluğunda güvenli bir hash algoritmasıdır. Bu özellik, veri bütünlüğünü sağlamak ve dijital imza oluşturmak için kullanılır.
 
+Hash Oluşturma
+Kullanıcılar, metinlerini girerek SHA-256 hash değeri oluşturabilir.
+
+Hash Oluştur butonuna tıklayarak, girilen metnin güvenli bir hash değeri elde edilir.
+
+SHA-256 Hakkında: SHA-256, verilerin dijital imzalarını oluşturmak ve veri bütünlüğünü doğrulamak için yaygın olarak kullanılır.
+
+Güvenlik Özellikleri:
+
+256-bit çıktı: Güvenli ve sabit uzunlukta çıktı sağlar.
+
+Çarpışma direnci: Farklı verilerin aynı hash değerini üretme olasılığı çok düşüktür.
+
+Tek yönlü fonksiyon: Orijinal veriye geri dönmek imkansızdır.
+
+Yaygın kullanım: Modern şifreleme ve güvenlik sistemlerinde geniş kullanım alanına sahiptir.
 
 
 
