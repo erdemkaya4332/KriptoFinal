@@ -1,0 +1,210 @@
+@{
+    ViewData["Title"] = "RSA İşlemleri";
+}
+
+<div class="container fade-in-up">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="text-center mb-5">
+                <h1 class="display-5 text-gradient fw-bold mb-3">
+                    <i class="fas fa-key me-3"></i>
+                    RSA İşlemleri
+                </h1>
+                <p class="lead text-secondary">
+                    RSA anahtar üretme ve şifreleme işlemlerini tek sayfada gerçekleştirin
+                </p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Anahtar Üretme Kartı -->
+                <div class="col-lg-6">
+                    <div class="card shadow-glow h-100">
+                        <div class="card-header">
+                            <h3 class="h5 mb-0">
+                                <i class="fas fa-key me-2"></i>
+                                RSA Anahtar Üret
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="publicKey" class="form-label">
+                                    <i class="fas fa-globe me-1"></i>
+                                    Public Key:
+                                </label>
+                                <textarea id="publicKey" class="form-control" rows="4" readonly 
+                                    placeholder="Public key burada görüntülenecek..."></textarea>
+                                <div class="mt-2">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="copyToClipboard('publicKey')">
+                                        <i class="fas fa-copy me-1"></i>Kopyala
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="privateKey" class="form-label">
+                                    <i class="fas fa-lock me-1"></i>
+                                    Private Key:
+                                </label>
+                                <textarea id="privateKey" class="form-control" rows="4" readonly 
+                                    placeholder="Private key burada görüntülenecek..."></textarea>
+                                <div class="mt-2">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="copyToClipboard('privateKey')">
+                                        <i class="fas fa-copy me-1"></i>Kopyala
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary w-100" onclick="generateKeys()">
+                                <i class="fas fa-bolt me-2"></i>Anahtar Üret
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Şifreleme Kartı -->
+                <div class="col-lg-6">
+                    <div class="card shadow-glow h-100">
+                        <div class="card-header">
+                            <h3 class="h5 mb-0">
+                                <i class="fas fa-lock me-2"></i>
+                                RSA Şifrele
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="encryptPublicKey" class="form-label">
+                                    <i class="fas fa-globe me-1"></i>
+                                    Public Key:
+                                </label>
+                                <textarea id="encryptPublicKey" class="form-control" rows="3" 
+                                    placeholder="Public key'i buraya yapıştırın..."></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="plainText" class="form-label">
+                                    <i class="fas fa-file-text me-1"></i>
+                                    Şifrelenecek Metin:
+                                </label>
+                                <textarea id="plainText" class="form-control" rows="3" 
+                                    placeholder="Şifrelenecek metni buraya yazın..."></textarea>
+                            </div>
+                            
+                            <button class="btn btn-success w-100 mb-3" onclick="encryptText()">
+                                <i class="fas fa-shield-alt me-2"></i>Şifrele
+                            </button>
+                            
+                            <div id="encryptError" class="alert alert-danger" style="display: none;"></div>
+                            
+                            <div id="encryptedResult" class="alert alert-success" style="display: none;">
+                                <h6 class="alert-heading">
+                                    <i class="fas fa-check-circle me-1"></i>
+                                    Şifrelenmiş Metin (Base64):
+                                </h6>
+                                <div id="encryptedText" class="mt-2 p-2 bg-dark rounded"></div>
+                                <div class="mt-2">
+                                    <button class="btn btn-outline-success btn-sm" onclick="copyToClipboard('encryptedText')">
+                                        <i class="fas fa-copy me-1"></i>Kopyala
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="/" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Ana Sayfaya Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function generateKeys() {
+        try {
+            const response = await fetch('/RSAOperations/GenerateKeys', {
+                method: 'POST'
+            });
+            const data = await response.json();
+            
+            document.getElementById('publicKey').value = data.publicKey;
+            document.getElementById('privateKey').value = data.privateKey;
+            document.getElementById('encryptPublicKey').value = data.publicKey;
+            
+            // Başarı mesajı göster
+            showAlert('Anahtarlar başarıyla üretildi!', 'success');
+        } catch (error) {
+            console.error('Anahtar üretme hatası:', error);
+            showAlert('Anahtar üretme işlemi başarısız oldu.', 'danger');
+        }
+    }
+
+    async function encryptText() {
+        const publicKey = document.getElementById('encryptPublicKey').value;
+        const plainText = document.getElementById('plainText').value;
+        const errorDiv = document.getElementById('encryptError');
+        const resultDiv = document.getElementById('encryptedResult');
+
+        // Hata ve sonuç divlerini gizle
+        errorDiv.style.display = 'none';
+        resultDiv.style.display = 'none';
+
+        if (!publicKey || !plainText) {
+            errorDiv.textContent = 'Public key ve şifrelenecek metin gereklidir.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        try {
+            const response = await fetch('/RSAOperations/Encrypt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `publicKeyBase64=${encodeURIComponent(publicKey)}&plainText=${encodeURIComponent(plainText)}`
+            });
+
+            if (!response.ok) {
+                throw new Error('Şifreleme başarısız');
+            }
+
+            const data = await response.json();
+            document.getElementById('encryptedText').textContent = data.encryptedText;
+            resultDiv.style.display = 'block';
+        } catch (error) {
+            errorDiv.textContent = 'Şifreleme işlemi başarısız oldu.';
+            errorDiv.style.display = 'block';
+        }
+    }
+
+    function copyToClipboard(elementId) {
+        const element = document.getElementById(elementId);
+        element.select();
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+        
+        // Kopyalama başarı mesajı
+        showAlert('Panoya kopyalandı!', 'success');
+    }
+
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        document.body.appendChild(alertDiv);
+        
+        // 3 saniye sonra otomatik kaldır
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 3000);
+    }
+</script> 

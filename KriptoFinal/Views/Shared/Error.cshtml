@@ -1,0 +1,78 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Hata";
+}
+
+<div class="container fade-in-up">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center mb-5">
+                <div class="mb-4">
+                    <i class="fas fa-exclamation-triangle fa-5x text-danger"></i>
+                </div>
+                <h1 class="display-5 text-danger fw-bold mb-3">
+                    Bir Hata Oluştu
+                </h1>
+                <p class="lead text-secondary">
+                    İsteğiniz işlenirken beklenmeyen bir hata oluştu.
+                </p>
+            </div>
+
+            <div class="card shadow-glow">
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="text-center">
+                                <i class="fas fa-home fa-3x text-primary mb-3"></i>
+                                <h4>Ana Sayfaya Dön</h4>
+                                <p class="text-muted">
+                                    Ana sayfaya dönerek uygulamayı yeniden kullanmaya başlayın.
+                                </p>
+                                <a href="/" class="btn btn-primary">
+                                    <i class="fas fa-home me-2"></i>Ana Sayfa
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="text-center">
+                                <i class="fas fa-arrow-left fa-3x text-secondary mb-3"></i>
+                                <h4>Geri Git</h4>
+                                <p class="text-muted">
+                                    Tarayıcınızın geri butonunu kullanarak önceki sayfaya dönün.
+                                </p>
+                                <button onclick="history.back()" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Geri Git
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.ShowRequestId)
+                    {
+                        <hr class="my-4">
+                        <div class="alert alert-info">
+                            <h6 class="alert-heading">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Teknik Bilgi
+                            </h6>
+                            <p class="mb-0">
+                                <strong>İstek ID:</strong> <code>@Model.RequestId</code>
+                            </p>
+                        </div>
+                    }
+
+                    <div class="alert alert-warning mt-4">
+                        <h6 class="alert-heading">
+                            <i class="fas fa-lightbulb me-1"></i>
+                            Geliştirici Modu
+                        </h6>
+                        <p class="mb-0">
+                            Daha detaylı hata bilgileri için <strong>Development</strong> ortamını etkinleştirin. 
+                            Bu ortam sadece yerel geliştirme için kullanılmalıdır.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+﻿@{
+    ViewData["Title"] = "SHA-256 Hash";
+}
+
+<div class="container fade-in-up">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center mb-5">
+                <h1 class="display-5 text-gradient fw-bold mb-3">
+                    <i class="fas fa-hashtag me-3"></i>
+                    SHA-256 Hash
+                </h1>
+                <p class="lead text-secondary">
+                    Metinleriniz için SHA-256 hash değerleri oluşturun
+                </p>
+            </div>
+
+            <div class="card shadow-glow">
+                <div class="card-header">
+                    <h3 class="h5 mb-0">
+                        <i class="fas fa-fingerprint me-2"></i>
+                        Hash Oluşturma
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Index" method="post">
+                        <div class="mb-3">
+                            <label for="plainText" class="form-label">
+                                <i class="fas fa-file-text me-1"></i>
+                                Metin:
+                            </label>
+                            <textarea id="plainText" name="plainText" class="form-control" rows="4" 
+                                placeholder="Hash değeri oluşturulacak metni buraya yazın...">@ViewBag.PlainText</textarea>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-hashtag me-2"></i>Hash Oluştur
+                            </button>
+                        </div>
+                    </form>
+
+                    @if (!string.IsNullOrEmpty(ViewBag.HashValue))
+                    {
+                        <div class="alert alert-success mt-4">
+                            <h6 class="alert-heading">
+                                <i class="fas fa-check-circle me-1"></i>
+                                SHA-256 Hash Değeri:
+                            </h6>
+                            <div class="mt-2 p-3 bg-dark rounded">
+                                <code class="text-light">@ViewBag.HashValue</code>
+                            </div>
+                            <div class="mt-2">
+                                <button class="btn btn-outline-success btn-sm" onclick="copyHashValue()">
+                                    <i class="fas fa-copy me-1"></i>Kopyala
+                                </button>
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                    {
+                        <div class="alert alert-danger mt-4">
+                            <h6 class="alert-heading">
+                                <i class="fas fa-exclamation-triangle me-1"></i>
+                                Hata:
+                            </h6>
+                            <p class="mb-0">@ViewBag.ErrorMessage</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Hash Bilgileri -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card bg-gradient-dark">
+                        <div class="card-body">
+                            <h5 class="card-title text-gradient">
+                                <i class="fas fa-info-circle me-2"></i>
+                                SHA-256 Hakkında
+                            </h5>
+                            <p class="card-text text-secondary">
+                                SHA-256, 256-bit hash değeri üreten güvenli hash algoritmasıdır. 
+                                Veri bütünlüğü ve dijital imza için kullanılır.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-gradient-dark">
+                        <div class="card-body">
+                            <h5 class="card-title text-gradient">
+                                <i class="fas fa-shield-alt me-2"></i>
+                                Güvenlik Özellikleri
+                            </h5>
+                            <ul class="text-secondary mb-0">
+                                <li>256-bit çıktı</li>
+                                <li>Çarpışma direnci</li>
+                                <li>Tek yönlü fonksiyon</li>
+                                <li>Yaygın kullanım</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="/" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Ana Sayfaya Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyHashValue() {
+        const hashValue = `@ViewBag.HashValue`;
+        if (hashValue) {
+            navigator.clipboard.writeText(hashValue).then(() => {
+                showAlert('Hash değeri panoya kopyalandı!', 'success');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = hashValue;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showAlert('Hash değeri panoya kopyalandı!', 'success');
+            });
+        }
+    }
+
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        document.body.appendChild(alertDiv);
+        
+        // 3 saniye sonra otomatik kaldır
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 3000);
+    }
+</script>

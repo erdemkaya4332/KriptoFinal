@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "RSA Anahtar Üret";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>RSA Anahtar Üret</title>
+    <style>
+        body {
+            background-color: #000010;
+            color: #00aaff;
+            font-family: "Courier New", Courier, monospace;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00aaff;
+        }
+
+        .key-container {
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            background-color: #001022;
+            padding: 20px;
+            border: 1px solid #00aaff;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .key-title {
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background-color: #000820;
+            color: #00aaff;
+            border: 1px solid #00aaff;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9em;
+            padding: 10px;
+            resize: none;
+        }
+
+        button.copy-btn {
+            background-color: #00aaff;
+            border: none;
+            color: #000010;
+            font-weight: bold;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+            button.copy-btn:hover {
+                background-color: #0088cc;
+            }
+
+        .copy-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .copy-msg {
+            margin-left: 15px;
+            color: #00ff00;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Geri dön butonu stili */
+        .back-btn {
+            display: block;
+            margin: 0 auto;
+            background-color: #004466;
+            color: #00aaff;
+            border: 2px solid #00aaff;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 10px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            text-align: center;
+            width: 160px;
+            text-decoration: none;
+        }
+
+            .back-btn:hover {
+                background-color: #006699;
+                color: #ffffff;
+                border-color: #0088cc;
+            }
+    </style>
+
+    <script>
+        function copyToClipboard(id, msgId) {
+            var copyText = document.getElementById(id);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // Mobil için
+            navigator.clipboard.writeText(copyText.value).then(function () {
+                var msg = document.getElementById(msgId);
+                msg.style.display = 'inline';
+                setTimeout(() => { msg.style.display = 'none'; }, 1500);
+            }, function () {
+                alert('Kopyalama başarısız oldu!');
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>RSA Anahtar Üret</h1>
+
+    <div class="key-container">
+        <div class="key-title">
+            <span>Public Key</span>
+            <button class="copy-btn" onclick="copyToClipboard('publicKeyArea', 'copyMsg1')">Kopyala</button>
+        </div>
+        <textarea readonly id="publicKeyArea">@ViewBag.PublicKey</textarea>
+        <span class="copy-msg" id="copyMsg1">Kopyalandı!</span>
+    </div>
+
+    <div class="key-container">
+        <div class="key-title">
+            <span>Private Key</span>
+            <button class="copy-btn" onclick="copyToClipboard('privateKeyArea', 'copyMsg2')">Kopyala</button>
+        </div>
+        <textarea readonly id="privateKeyArea">@ViewBag.PrivateKey</textarea>
+        <span class="copy-msg" id="copyMsg2">Kopyalandı!</span>
+    </div>
+
+    <button class="back-btn" type="button" onclick="history.back()">Geri Dön</button>
+</body>
+</html>

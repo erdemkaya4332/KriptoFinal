@@ -1,0 +1,129 @@
+﻿@{
+    ViewData["Title"] = "RSA Şifre Çözme";
+}
+
+<div class="container fade-in-up">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center mb-5">
+                <h1 class="display-5 text-gradient fw-bold mb-3">
+                    <i class="fas fa-unlock me-3"></i>
+                    RSA Şifre Çözme
+                </h1>
+                <p class="lead text-secondary">
+                    RSA ile şifrelenmiş metinleri güvenli bir şekilde çözün
+                </p>
+            </div>
+
+            <div class="card shadow-glow">
+                <div class="card-header">
+                    <h3 class="h5 mb-0">
+                        <i class="fas fa-lock me-2"></i>
+                        Şifre Çözme İşlemi
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Index" method="post">
+                        <div class="mb-3">
+                            <label for="privateKeyBase64" class="form-label">
+                                <i class="fas fa-key me-1"></i>
+                                Private Key:
+                            </label>
+                            <textarea id="privateKeyBase64" name="privateKeyBase64" class="form-control" rows="4" 
+                                placeholder="Private key'i buraya yapıştırın...">@ViewBag.PrivateKey</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="encryptedText" class="form-label">
+                                <i class="fas fa-file-text me-1"></i>
+                                Şifrelenmiş Metin (Base64):
+                            </label>
+                            <textarea id="encryptedText" name="encryptedText" class="form-control" rows="4" 
+                                placeholder="Şifrelenmiş metni buraya yapıştırın...">@ViewBag.EncryptedText</textarea>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-unlock me-2"></i>Şifreyi Çöz
+                            </button>
+                        </div>
+                    </form>
+
+                    @if (!string.IsNullOrEmpty(ViewBag.DecryptedText))
+                    {
+                        <div class="alert alert-success mt-4">
+                            <h6 class="alert-heading">
+                                <i class="fas fa-check-circle me-1"></i>
+                                Çözülmüş Metin:
+                            </h6>
+                            <div class="mt-2 p-3 bg-dark rounded">
+                                <pre class="mb-0 text-light">@ViewBag.DecryptedText</pre>
+                            </div>
+                            <div class="mt-2">
+                                <button class="btn btn-outline-success btn-sm" onclick="copyDecryptedText()">
+                                    <i class="fas fa-copy me-1"></i>Kopyala
+                                </button>
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                    {
+                        <div class="alert alert-danger mt-4">
+                            <h6 class="alert-heading">
+                                <i class="fas fa-exclamation-triangle me-1"></i>
+                                Hata:
+                            </h6>
+                            <p class="mb-0">@ViewBag.ErrorMessage</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="/" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Ana Sayfaya Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyDecryptedText() {
+        const decryptedText = `@ViewBag.DecryptedText`;
+        if (decryptedText) {
+            navigator.clipboard.writeText(decryptedText).then(() => {
+                showAlert('Çözülmüş metin panoya kopyalandı!', 'success');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = decryptedText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showAlert('Çözülmüş metin panoya kopyalandı!', 'success');
+            });
+        }
+    }
+
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        document.body.appendChild(alertDiv);
+        
+        // 3 saniye sonra otomatik kaldır
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 3000);
+    }
+</script>
